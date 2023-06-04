@@ -17,10 +17,10 @@ struct Server
 
     int socket;
 
-    void (*launch)(struct Server *server);
+    void (*launch)(struct Server *server, char *root_directory);
 };
 
 struct Server server_constructor(int domain, int service, int protocol, unsigned long interface, 
-int port, int backlog, void (*launch)(struct Server *server));
+int port, int backlog, void (*launch)(struct Server *server, char *root_directory));
 
 #endif
