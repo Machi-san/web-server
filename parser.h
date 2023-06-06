@@ -5,41 +5,7 @@
 #ifndef Parser_H
 #define Parser_H
 
-int BreakLine(char *string); // identifica el salto de linea
-char *Parse(char *string); // parsea la peticion
 char *Back(char *path); // direccion anterior
-
-int BreakLine(char *string)
-{
-    int contador = 0;
-
-    for(int i = 0; i < strlen(string); i++)
-    {
-        if(string[i] == '\n')
-            break;
-        
-        contador++;
-    }
-
-    return contador;
-}
-
-char *Parse(char *string)
-{
-    char *temp = malloc(1000*sizeof(char));
-    int contador = 0;
-
-    for(int i = 4; i < BreakLine(string) - 10; i++)
-        temp[contador++] = string[i];
-    
-    for(int i = contador; i < strlen(temp); i++) // limpiar el buffer
-        temp[i] = NULL;
-    
-    if(strcmp(temp, "/favicon.ico") == 0)
-        strcpy(temp, "/"); 
-
-    return temp;
-}
 
 char *Back(char *path)
 {   
