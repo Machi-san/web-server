@@ -12,7 +12,6 @@ void launch(struct Server *server, char *root_directory)
     printf("[SERVER]: Escuchando en el puerto %d... \n", server -> port);
     
     char open_folder[1000];
-    char *parse = malloc(1000 * sizeof(char));
 
     int address_lenght = sizeof(server -> address);
     int new_socket = accept(server -> socket, (struct sockaddr *)&server -> address, 
