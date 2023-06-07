@@ -12,6 +12,7 @@ void launch(struct Server *server, char *root_directory)
     printf("[SERVER]: Escuchando en el puerto %d... \n", server -> port);
     
     char open_folder[1000];
+    char *parse = malloc(1000 * sizeof(char));
 
     int address_lenght = sizeof(server -> address);
     int new_socket = accept(server -> socket, (struct sockaddr *)&server -> address, 
@@ -22,28 +23,25 @@ void launch(struct Server *server, char *root_directory)
     send(new_socket, header, strlen(header), 0);
     send(new_socket, html, strlen(html), 0);
     close(new_socket);
-    struct GETRequest request;
 
     while(1)
     {
         new_socket = accept(server -> socket, (struct sockaddr *)&server -> address, 
         (socklen_t *)&address_lenght);   
 
-        read(new_socket, open_folder, sizeof(open_folder)); // leer la solicitud
-        request = get_request_constructor(open_folder);
-        
-        if (strlen(request.URI) > 1) // si pidio algo
+        int temp = read(new_socket, open_folder, sizeof(open_folder)); // leer la solicitud
+        parse = Parse(open_folder); // carpeta a abrir
+    
+        if (strlen(parse) > 1) // si pidio algo
         {
             // enviar el nuevo html
-            html = Loadhtml(request.URI);
+            html = Loadhtml(parse);
             send(new_socket, header, strlen(header), 0);
             send(new_socket, html, strlen(html), 0);
 
             // limpio el buffer
             strcpy(open_folder, "");
         }
-
-        // cerrar la conexion
         close(new_socket);
     }
 }
