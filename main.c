@@ -6,6 +6,7 @@
 #include "html.h"
 #include "parser.h"
 #include "GETRequest.h"
+#include "download.h"
 
 void launch(struct Server *server, char *root_directory)
 {
@@ -18,10 +19,7 @@ void launch(struct Server *server, char *root_directory)
     int new_socket = accept(server -> socket, (struct sockaddr *)&server -> address, 
         (socklen_t *)&address_lenght);
     
-    char *html = Loadhtml(root_directory);
-
-    send(new_socket, header, strlen(header), 0);
-    send(new_socket, html, strlen(html), 0);
+    SendHtml(root_directory, new_socket);
     close(new_socket);
 
     while(1)
@@ -31,14 +29,17 @@ void launch(struct Server *server, char *root_directory)
 
         int temp = read(new_socket, open_folder, sizeof(open_folder)); // leer la solicitud
         parse = Parse(open_folder); // carpeta a abrir
-    
+        
         if (strlen(parse) > 1) // si pidio algo
         {
+            // descargar el archivo
+            if(IsFolder(parse) == 0)
+                SendDownload(parse, new_socket);
+            
             // enviar el nuevo html
-            html = Loadhtml(parse);
-            send(new_socket, header, strlen(header), 0);
-            send(new_socket, html, strlen(html), 0);
-
+            else
+                SendHtml(parse, new_socket);
+            
             // limpio el buffer
             strcpy(open_folder, "");
         }
