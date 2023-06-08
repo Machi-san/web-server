@@ -26,12 +26,14 @@ int port, int backlog, void (*launch)(struct Server *server, char *root_director
         perror("Failed to connect socket...\n");
         exit(1);
     }
+    printf("[SERVER]: Socket creado exitosamente\n");
 
     if(bind(server.socket, (struct sockaddr *)&server.address, sizeof(server.address)) < 0)
     {
         perror("Failed to bind socket...\n");
         exit(1);
     }
+    printf("[SERVER]: Socket enlazado exitosamente\n");
 
     if(listen(server.socket, server.backlog) < 0)
     {
