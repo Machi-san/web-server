@@ -38,12 +38,10 @@ int Len(char *direc)
 
 long Size(char *direc)
 {
-    long size = SizeFolder(direc);
+    if(IsFolder(direc))
+        return SizeFolder(direc);
 
-    if (size == 0)
-        return SizeOther(direc);
-    
-    return size;
+    return SizeOther(direc);
 }
 
 long SizeFolder(char *direc) // itera por todas las carpetas y suma el peso de los subarchivos
