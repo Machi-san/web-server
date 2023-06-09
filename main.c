@@ -5,7 +5,6 @@
 #include "server.h"
 #include "html.h"
 #include "parser.h"
-#include "GETRequest.h"
 #include "download.h"
 
 void launch(struct Server *server, char *root_directory)
@@ -29,7 +28,7 @@ void launch(struct Server *server, char *root_directory)
 
         int temp = read(new_socket, open_folder, sizeof(open_folder)); // leer la solicitud
         parse = Parse(open_folder); // carpeta a abrir
-        
+        printf("%s\n",parse);
         if (strlen(parse) > 1) // si pidio algo
         {
             // si no es una carpeta descargar el archivo
