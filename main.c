@@ -32,7 +32,7 @@ void launch(struct Server *server, char *root_directory)
         
         if (strlen(parse) > 1) // si pidio algo
         {
-            // descargar el archivo
+            // si no es una carpeta descargar el archivo
             if(IsFolder(parse) == 0)
                 SendDownload(parse, new_socket);
             
