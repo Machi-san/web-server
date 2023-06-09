@@ -19,7 +19,7 @@
 #define Download_H
 
 void SendDownload(char *direc, int fdc); // descargar archivos que pide el usuario
-char header_download[] = "HTTP/1.1 200 OK\r\n"; // header de la descarga de archivos
+char header_download[] = "HTTP/1.1 200  \r\n Content-Type: raw  \r\n\r\n"; // header de la descarga de archivos
 
 void SendDownload(char *direc, int fdc)
 {
@@ -43,7 +43,6 @@ void SendDownload(char *direc, int fdc)
 
     // Enviar el archivo al usuario
     sent_bytes = sendfile(fdc, fd, &offset, file_stat.st_size);
-  
     // Cerrar el archivo
     close(fd);
 }
